@@ -90,4 +90,10 @@ public class MainManager : MonoBehaviour
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
+
+    private void OnApplicationQuit()
+    {
+        SingleTon.s_Instance.updateHighestScore(m_Points);
+        SingleTon.s_Instance.SaveNameAndScore();
+    }
 }

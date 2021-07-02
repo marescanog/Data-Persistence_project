@@ -12,6 +12,15 @@ public class MenuUI : MonoBehaviour
     [SerializeField] Text label;
     [SerializeField] InputField inputField;
 
+    private void Start()
+    {
+        if (SingleTon.s_Instance != null && SingleTon.s_Instance.hasSaveFile)
+        {
+            label.text = "Best Score : "+ SingleTon.s_Instance.PlayerName + " : " + SingleTon.s_Instance.highestScore;
+            inputField.text = SingleTon.s_Instance.PlayerName;
+        }
+    }
+
     public void LoadScene()
     {
         SceneManager.LoadScene(1);
@@ -24,11 +33,14 @@ public class MenuUI : MonoBehaviour
 
     public void Exit()
     {
+        SingleTon.s_Instance.SaveNameAndScore();
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
 #else
     Application.Quit();
 #endif
+
     }
+
 
 }
