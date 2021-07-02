@@ -11,14 +11,17 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text LabelText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
     private int m_Points;
     
     private bool m_GameOver = false;
+    private string pName = "";
+    private int hScore = 0;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +39,17 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        if (SingleTon.s_Instance != null) {
+            pName = SingleTon.s_Instance.PlayerName;
+            hScore = SingleTon.s_Instance.highestScore;
+        }
+
+        if (SingleTon.s_Instance.setLabel)
+        {
+            LabelText.text = "Best Score : " + pName + " : " + hScore;
+            SingleTon.s_Instance.setLabel = false;
+        }
+
     }
 
     private void Update()
@@ -58,6 +72,9 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                // Add Code here for Data Persistence
+                SingleTon.s_Instance.setLabel = true;
+                SingleTon.s_Instance.updateHighestScore(m_Points);
             }
         }
     }

@@ -9,9 +9,17 @@ using UnityEditor;
 
 public class MenuUI : MonoBehaviour
 {
+    [SerializeField] Text label;
+    [SerializeField] InputField inputField;
+
     public void LoadScene()
     {
         SceneManager.LoadScene(1);
+        if (SingleTon.s_Instance != null)
+        {
+            SingleTon.s_Instance.PlayerName = inputField.text;
+
+        }
     }
 
     public void Exit()
@@ -21,19 +29,6 @@ public class MenuUI : MonoBehaviour
 #else
     Application.Quit();
 #endif
-    }
-
-    public void SetName(string playerName)
-    {
-        MainManager1.Instance.PlayerName = playerName;
-    }
-
-    private void Start()
-    {
-        if(MainManager1.Instance != null)
-        {
-            //Set Player Name
-        }
     }
 
 }
